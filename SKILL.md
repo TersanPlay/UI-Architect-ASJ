@@ -55,6 +55,1076 @@ Diferentemente de uma Skill presa a uma estética específica, o UI Architect AS
 
 ---
 
+# Preset oficial — Turquoise Architect ASJ
+
+Este preset registra a implementação visual de referência criada em:
+
+- `examples/web-turquoise-Architect-ASJ.html`
+- `examples/web-turquoise-components-ASJ.html`
+
+Ele deve ser tratado como a **base visual e construtiva oficial da identidade Turquoise Architect ASJ**, seguindo a disciplina da Skill original `web-prototype-taste-soft`, mas incorporando as decisões específicas definidas para este projeto.
+
+Use este preset quando o usuário pedir explicitamente:
+
+- `UI Architect ASJ`;
+- `Turquoise Architect`;
+- `web-turquoise-Architect-ASJ`;
+- uma nova página alinhada ao exemplo Turquoise;
+- uma variação da página de referência criada neste repositório;
+- uma interface cream + turquesa com acabamento premium ASJ.
+
+Este preset **não substitui** um Design System existente nem uma referência visual fornecida explicitamente pelo usuário. Nesses casos, preserve a autoridade do projeto e use este preset apenas como fonte de técnica, acabamento e coerência.
+
+## Intenção estética
+
+A estética deve transmitir:
+
+- produto premium;
+- calma visual;
+- precisão;
+- profundidade suave;
+- arquitetura de superfícies bem resolvida;
+- tecnologia sofisticada sem aparência neon;
+- movimento refinado e funcional;
+- densidade controlada;
+- acabamento de produto maduro.
+
+A página deve parecer uma combinação de produto SaaS premium, interface editorial tecnológica e sistema operacional moderno.
+
+Evite interpretar “premium” como excesso de blur, dourado, brilho, gradiente ou radius.
+
+---
+
+## Source hierarchy do preset
+
+A composição Turquoise Architect usa as cinco fontes com responsabilidades explícitas.
+
+### Refero
+
+Responsável por:
+
+- arquitetura da informação;
+- hierarquia de produto;
+- densidade;
+- organização de configurações;
+- padrões administrativos;
+- navegação;
+- comportamento de filtros;
+- tabelas;
+- estados;
+- workflows.
+
+### Aceternity UI
+
+Responsável por:
+
+- composição do Hero;
+- Spotlight;
+- Bento Grid;
+- ritmo de landing page;
+- feature composition;
+- seções de demonstração;
+- closing CTA.
+
+### 21st.dev
+
+Responsável por:
+
+- sidebar;
+- data table;
+- toolbar;
+- filtros;
+- search box;
+- command palette;
+- settings shell;
+- componentes administrativos;
+- padrões SaaS.
+
+### React Bits
+
+Responsável por:
+
+- ambient background;
+- spotlight localizado em cards;
+- scroll reveal;
+- microinterações;
+- hover polish;
+- feedback visual;
+- movimento ambiental discreto.
+
+### Componentry
+
+Responsável por:
+
+- Sticky Scroll Cards;
+- Magnetic Dock;
+- microinterações sofisticadas;
+- profundidade por scroll;
+- movimento contextual.
+
+Nenhuma dessas origens pode permanecer visualmente identificável como uma biblioteca separada depois da adaptação.
+
+---
+
+# Turquoise Architect — Hard Rules
+
+Estas regras são obrigatórias quando o preset Turquoise Architect ASJ estiver ativo.
+
+## 1. Canvas
+
+O canvas principal deve ser um destes tons:
+
+- `#F2F2F0` — silver-grey quente;
+- `#FDFBF7` — warm cream.
+
+Preferência padrão:
+
+```css
+--canvas: #FDFBF7;
+--canvas-alt: #F2F2F0;
+```
+
+Nunca use branco puro como canvas principal.
+
+Branco quente pode ser utilizado em superfícies internas.
+
+---
+
+## 2. Superfícies
+
+Use superfícies em branco quente, creme e azul extremamente suave.
+
+Baseline:
+
+```css
+--surface: #FFFDF9;
+--surface-warm: #F8F3EA;
+--surface-blue: #DCEFF0;
+--surface-blue-2: #EDF7F7;
+```
+
+A profundidade deve vir da relação entre canvas, shell, core, hairline e sombra difusa — não de sombras escuras fortes.
+
+---
+
+## 3. Paleta principal
+
+Use:
+
+```css
+--primary: #087F8C;
+--primary-dark: #075E67;
+--primary-soft: #DCEFF0;
+--primary-glow: #7CC6CA;
+```
+
+O turquesa deve controlar:
+
+- CTA principal;
+- foco;
+- estados selecionados;
+- navegação ativa;
+- detalhes de gráfico;
+- microinterações;
+- elementos de produto.
+
+Não transforme a página em uma superfície inteiramente turquesa.
+
+---
+
+## 4. Texto
+
+O texto principal deve ser off-black.
+
+Baseline:
+
+```css
+--ink: #171A1A;
+--ink-2: #242929;
+--muted: #687170;
+```
+
+Nunca utilize `#000000` como cor dominante.
+
+---
+
+## 5. Accent premium
+
+O dourado oficial é:
+
+```css
+--gold: #C89B5B;
+--gold-soft: #F3E7D3;
+```
+
+O dourado deve ser raro.
+
+Permitido principalmente em:
+
+- badges premium;
+- pequeno detalhe da marca;
+- ícone especial;
+- diamond/dot do eyebrow;
+- separador;
+- detalhe de orb;
+- destaque de plano premium;
+- elemento especial de uma composição.
+
+Nunca use dourado simultaneamente em grandes fundos, títulos, CTAs principais, borders de todos os cards e ícones comuns.
+
+Regra prática:
+
+> Se remover o dourado de 80% dos elementos dourados e a página melhorar, havia dourado demais.
+
+---
+
+## 6. Tipografia
+
+Preferir:
+
+- Geist;
+- Plus Jakarta Sans;
+- Cabinet Grotesk;
+
+Para metadata:
+
+- Geist Mono;
+- JetBrains Mono.
+
+Não usar como fonte visual principal:
+
+- Inter;
+- Roboto;
+- Helvetica;
+- Open Sans.
+
+Display recomendado:
+
+```css
+font-size: clamp(48px, 7vw, 96px);
+font-weight: 700;
+letter-spacing: -0.035em;
+line-height: 0.96;
+```
+
+O Hero pode usar tracking ligeiramente mais apertado, até aproximadamente `-0.045em`, quando a fonte suportar.
+
+Body copy principal deve permanecer entre aproximadamente `16px–18px`, com line-height confortável de `1.5–1.65`.
+
+Metadata e eyebrows devem usar monospace pequeno, normalmente `9px–11px`.
+
+---
+
+## 7. Geometria reduzida
+
+A Skill original usa squircle radii generosos de aproximadamente `28px–40px`.
+
+No Turquoise Architect ASJ, a curvatura foi deliberadamente reduzida em aproximadamente 50%.
+
+Baseline:
+
+```css
+--radius-shell: 18px;
+--radius-core: 15px;
+--radius-card: 12px;
+--radius-control: 10px;
+--radius-small: 7px;
+--radius-icon: 9px;
+```
+
+Faixas recomendadas:
+
+- superfícies principais: `14px–20px`;
+- cards comuns: `10px–14px`;
+- controles: `8px–12px`;
+- células internas: `7px–10px`.
+
+Não transformar todos os controles em pills.
+
+Elementos funcionalmente circulares continuam circulares:
+
+- avatar circular quando aplicável;
+- status dot;
+- gráfico radial;
+- orb;
+- indicador;
+- spinner.
+
+---
+
+## 8. Double-bezel obrigatório em superfícies importantes
+
+Todo card ou preview de alta importância deve considerar a arquitetura:
+
+```text
+outer shell
+└── inner core
+```
+
+Outer shell:
+
+- padding de aproximadamente `6px–10px`;
+- fundo semitransparente quente;
+- hairline ring;
+- sombra difusa externa;
+- raio maior.
+
+Inner core:
+
+- superfície quente sólida;
+- hairline interno;
+- raio concentricamente menor;
+- conteúdo real.
+
+Exemplo conceitual:
+
+```css
+.shell {
+  padding: 8px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.48);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    0 0 0 1px rgba(23,26,26,.08),
+    0 24px 48px -32px rgba(23,26,26,.24);
+}
+
+.core {
+  border-radius: 15px;
+  background: #FFFDF9;
+  box-shadow: inset 0 0 0 1px rgba(23,26,26,.08);
+}
+```
+
+Nunca use raios internos maiores ou geometricamente desconectados do shell externo.
+
+---
+
+## 9. CTA = button-in-button adaptado
+
+Preserve o princípio da Skill original de CTA com duas camadas, mas **não use pill extremo**.
+
+Estrutura:
+
+```text
+button
+├── label
+└── trailing icon wrapper
+```
+
+Baseline:
+
+- botão: `border-radius: 10px–12px`;
+- icon wrapper: `border-radius: 8px–9px`;
+- ícone trailing alinhado à direita;
+- `active: scale(.98)`;
+- ícone recebe leve movimento no hover.
+
+Exemplo:
+
+```css
+.cta {
+  border-radius: 10px;
+}
+
+.cta:active {
+  transform: scale(.98);
+}
+
+.cta .icon-wrap {
+  border-radius: 8px;
+  transition: transform 360ms cubic-bezier(.16,1.16,.3,1);
+}
+
+.cta:hover .icon-wrap {
+  transform: translate(2px,-1px) scale(1.04);
+}
+```
+
+---
+
+## 10. Ambient depth
+
+A página pode possuir um ambient mesh fixo atrás do Hero.
+
+Obrigatório:
+
+- `pointer-events: none`;
+- baixa opacidade;
+- movimento lento;
+- transform-only ou opacity-only;
+- não reduzir contraste do conteúdo.
+
+Turquoise glow:
+
+```css
+opacity: 0.10–0.18;
+```
+
+Gold ambient secundário, se utilizado:
+
+```css
+opacity: 0.05–0.10;
+```
+
+Nunca transforme o dourado em glow dominante.
+
+---
+
+## 11. Eyebrow tags
+
+Eyebrow de seção pode usar:
+
+- monospace;
+- uppercase;
+- `9px–11px`;
+- tracking entre `.14em–.2em`;
+- pequeno detalhe dourado;
+- superfície azul suave ou warm white;
+- raio entre `8px–10px`.
+
+No preset ASJ o eyebrow **não precisa ser pill completo**.
+
+---
+
+## 12. Hairline architecture
+
+Evite borda genérica cinza sólida.
+
+Prefira:
+
+```css
+--hairline: rgba(23,26,26,.08);
+--hairline-strong: rgba(23,26,26,.13);
+```
+
+Use:
+
+- `box-shadow: inset 0 0 0 1px var(--hairline)`;
+- rings de baixa opacidade;
+- bordas contextuais apenas onde ajudam densidade e agrupamento.
+
+---
+
+## 13. Shadows
+
+Não usar:
+
+- `shadow-md` genérico;
+- `shadow-lg` genérico;
+- sombras pretas duras;
+- elevação pesada em todos os cards.
+
+Preferir sombras largas, difusas e discretas.
+
+Exemplo:
+
+```css
+box-shadow: 0 22px 50px -34px rgba(23,26,26,.26);
+```
+
+---
+
+## 14. Section rhythm
+
+Em landing/showcase:
+
+- seções principais: aproximadamente `py-24` ou `78px–112px`;
+- alternar canvas aberto e bandas discretas;
+- variar densidade e composição;
+- não repetir o mesmo grid em todas as seções.
+
+A página deve possuir ritmo, não apenas uma pilha de componentes.
+
+---
+
+# Turquoise Architect — Banned
+
+Quando este preset estiver ativo, evite ou proíba:
+
+- canvas branco puro;
+- texto preto `#000` dominante;
+- Inter, Roboto, Helvetica e Open Sans como direção visual principal;
+- border cinza sólida genérica em todos os componentes;
+- `shadow-md`/`shadow-lg` como solução padrão;
+- navbar full-width colada à borda superior sem respiro;
+- pill radius em todos os botões;
+- radius acima de aproximadamente `20px` em todas as superfícies principais sem motivo;
+- glassmorphism generalizado;
+- dourado em grandes áreas;
+- dourado como CTA principal;
+- glow dourado dominante;
+- gradiente turquesa em todo título;
+- neon cyan;
+- múltiplos loops chamativos simultaneamente;
+- animações de `width`, `height`, `top` ou `left` durante interações comuns;
+- `ease-in-out` como easing principal;
+- `h-screen`; usar `min-height` com unidades dinâmicas quando necessário;
+- grids de cards repetidos seção após seção;
+- bento grid sem função;
+- excesso de badges;
+- métricas fictícias apresentadas como fatos;
+- logos ou clientes inventados apresentados como reais;
+- tabela convertida em cards no desktop apenas por estética;
+- hover necessário para compreender informação essencial;
+- elementos decorativos bloqueando interação;
+- animação em cada título, palavra, ícone e botão.
+
+---
+
+# Turquoise Architect — Required Components
+
+Para uma **landing/showcase completa Turquoise Architect**, a composição padrão deve considerar os seguintes componentes.
+
+Não são obrigatórios em telas administrativas puras; adapte ao tipo de produto.
+
+## 1. Floating navbar
+
+Deve possuir:
+
+- largura contida;
+- margem superior;
+- backdrop blur discreto;
+- warm-white transparency;
+- hairline ring;
+- raio aproximado de `16px–18px`;
+- identidade de marca;
+- navegação essencial;
+- uma única ação primária quando necessária.
+
+Evite navbar edge-to-edge visualmente pesada.
+
+---
+
+## 2. Asymmetric Hero
+
+Deve conter:
+
+- headline display forte;
+- eyebrow quando fizer sentido;
+- lede com aproximadamente `max-width: 52ch–56ch`;
+- CTA primária;
+- CTA secundária/ghost quando necessária;
+- product preview ou composição visual relevante;
+- profundidade ambiental suave.
+
+Layout recomendado em desktop:
+
+```text
+copy     product preview
+~52%     ~48%
+```
+
+Em mobile deve colapsar para uma coluna.
+
+---
+
+## 3. Product preview double-bezel
+
+Quando houver produto digital, prefira um preview realista usando shell/core.
+
+Pode demonstrar:
+
+- dashboard;
+- tabela;
+- sidebar;
+- métricas;
+- settings;
+- workflow;
+- UI real.
+
+Não substitua preview de produto por decoração abstrata quando mostrar o produto ajuda a compreensão.
+
+---
+
+## 4. Bento / composition grid
+
+Quando usado, deve possuir função narrativa.
+
+Inclua pelo menos:
+
+- uma peça dominante/wide;
+- uma peça secundária contrastante;
+- variação de superfície;
+- diferença de densidade;
+- uma visualização funcional.
+
+Não faça todos os cards do mesmo tamanho.
+
+Todos os cards importantes devem respeitar a arquitetura visual ASJ.
+
+---
+
+## 5. Mature product UX module
+
+Para showcase da Skill, inclua uma região de produto maduro baseada em **Refero + 21st.dev**.
+
+Exemplo oficial:
+
+- sidebar;
+- contextual header;
+- search;
+- filtros;
+- data table;
+- estados;
+- badges funcionais;
+- settings;
+- switches;
+- command palette.
+
+Essa seção comprova que o Design System também funciona em produto operacional, não apenas em marketing.
+
+---
+
+## 6. Interaction layer
+
+Use **React Bits ou Componentry** apenas para uma ou duas demonstrações significativas.
+
+Padrões adequados:
+
+- spotlight card;
+- scroll reveal;
+- sticky scroll cards;
+- magnetic dock;
+- localized pointer glow;
+- hover de CTA.
+
+Não use todos os efeitos disponíveis simultaneamente.
+
+---
+
+## 7. Source map quando a página for showcase da Skill
+
+A página de demonstração da Skill deve tornar explícita a função de cada fonte:
+
+- React Bits → polish e motion;
+- Aceternity UI → composição;
+- 21st.dev → componentes;
+- Componentry → interação;
+- Refero → UX.
+
+O Source Map é documentação da Skill, não componente obrigatório em produtos de clientes.
+
+---
+
+## 8. Closing band
+
+A landing/showcase deve encerrar com uma superfície invertida suave.
+
+Baseline:
+
+```css
+background: linear-gradient(180deg, #14383B 0%, #0D292C 100%);
+color: #F9FCFB;
+border-radius: 20px;
+```
+
+Pode receber:
+
+- turquesa ambiental suave;
+- dourado em opacidade muito baixa;
+- CTA clara.
+
+---
+
+## 9. Footer
+
+Footer deve ser discreto.
+
+Preferir:
+
+- monospace metadata;
+- hairline ou separação espacial;
+- poucas ações;
+- baixo contraste;
+- sem card externo desnecessário.
+
+---
+
+# Arquitetura oficial da página `web-turquoise-components-ASJ.html`
+
+A segunda página HTML do repositório é uma implementação de referência da integração das cinco fontes.
+
+A ordem estrutural oficial é:
+
+```text
+Floating Nav
+↓
+Hero / Product Preview
+↓
+Component Composition
+  ├── Aceternity Bento
+  └── React Bits Spotlight / Motion
+↓
+Mature Product UX
+  ├── Refero information architecture
+  └── 21st.dev admin components
+↓
+Interaction Layer
+  └── Componentry sticky cards / magnetic dock
+↓
+Source Map
+↓
+Closing Band
+↓
+Footer
+↓
+Command Palette overlay
+```
+
+Esta estrutura demonstra a filosofia central da Skill:
+
+> componentes provenientes de fontes diferentes devem ser normalizados até parecerem parte do mesmo produto.
+
+---
+
+# Turquoise Architect — Motion
+
+Motion deve seguir a disciplina da Skill original, adaptada à página ASJ.
+
+## Easing principal
+
+Use:
+
+```css
+--ease: cubic-bezier(.32,.72,0,1);
+--ease-spring: cubic-bezier(.16,1.16,.3,1);
+```
+
+Evite `ease-in-out` como padrão geral.
+
+`linear` é permitido apenas onde a física visual exige velocidade constante, como:
+
+- marquee;
+- orbit decorativo lento;
+- tradução contínua;
+
+Não use `linear` em hover, dialog, card ou CTA.
+
+---
+
+## CTA motion
+
+No `:active`:
+
+```css
+transform: scale(.98);
+```
+
+No trailing icon:
+
+```css
+transform: translate(2px,-1px) scale(1.04);
+```
+
+Movimento deve ser pequeno o bastante para não alterar layout.
+
+---
+
+## Scroll entry
+
+Baseline:
+
+```css
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(5px);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+```
+
+Use `IntersectionObserver`.
+
+Não crie um observer separado para cada microelemento.
+
+Agrupe entrada por seção ou módulo.
+
+---
+
+## Ambient mesh
+
+Duração recomendada:
+
+- `24s+`;
+- preferencialmente `26s–36s`.
+
+Animações ambientais devem usar principalmente:
+
+- `transform`;
+- eventualmente `opacity`.
+
+---
+
+## Spotlight card
+
+O efeito deve ser localizado ao ponteiro.
+
+Regras:
+
+- baixa opacidade;
+- somente dentro do card;
+- não prejudicar leitura;
+- sem seguir cursor em mobile como dependência funcional;
+- efeito removível sem perda de informação.
+
+---
+
+## Sticky cards
+
+Em desktop:
+
+- permitir cascade progressivo;
+- offsets verticais discretos;
+- cards continuam legíveis.
+
+Em mobile/tablet estreito:
+
+- remover sticky;
+- remover overlap;
+- renderizar fluxo vertical normal.
+
+---
+
+## Magnetic Dock
+
+O dock pode aumentar itens próximos ao cursor, porém:
+
+- escala máxima aproximada `1.20–1.30`;
+- não deslocar layout externo;
+- não esconder labels essenciais;
+- comportamento não pode ser necessário para uso em touchscreen.
+
+---
+
+## Reduced motion
+
+Obrigatório:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+```
+
+A página precisa continuar completa e compreensível sem motion.
+
+---
+
+# Turquoise Architect — Responsive Contract
+
+## Desktop amplo
+
+- Hero em duas colunas;
+- bento assimétrico;
+- workspace com sidebar completa;
+- sticky cards ativos;
+- dock horizontal;
+- source map em múltiplas colunas.
+
+## Notebook / tablet landscape
+
+- Hero pode migrar para uma coluna;
+- bento reduz spans;
+- sidebar pode compactar;
+- sticky permanece somente se houver altura útil suficiente.
+
+## Tablet
+
+- sidebar pode virar rail de ícones;
+- labels secundárias podem ser ocultadas;
+- settings passam para uma coluna;
+- grids reduzem colunas;
+- navegação de marketing pode ser simplificada.
+
+## Mobile abaixo de aproximadamente 680–768px
+
+- layout principal em coluna única;
+- remover overlaps;
+- remover rotations decorativas não essenciais;
+- sticky cards voltam ao fluxo normal;
+- sidebar desktop não deve ocupar a viewport;
+- data table usa scroll horizontal ou disclosure planejado;
+- filtros podem usar scroll horizontal;
+- CTA principal permanece visível;
+- tap targets devem ser adequados;
+- dependência de hover deve desaparecer;
+- typography display deve reduzir sem perder personalidade.
+
+Nunca apenas reduza `transform: scale()` da página inteira.
+
+---
+
+# Turquoise Architect — Accessibility Contract
+
+Obrigatório considerar:
+
+- `lang` correto no HTML;
+- landmarks `header`, `nav`, `main`, `section`, `footer`;
+- heading hierarchy;
+- `button` para ação;
+- `a` para navegação;
+- labels reais em inputs;
+- `aria-label` em icon-only buttons;
+- `aria-pressed` em toggles quando adequado;
+- foco visível em turquesa;
+- command palette com semântica de dialog;
+- Escape para fechar overlays;
+- restauração de foco quando overlay fechar;
+- contraste equivalente a WCAG AA quando aplicável;
+- estados não dependentes apenas de cor;
+- reduced motion.
+
+Badges de status devem possuir texto, não apenas cor.
+
+---
+
+# Turquoise Architect — Performance Contract
+
+- Preferir CSS para efeitos simples.
+- Não instalar uma biblioteca apenas para reproduzir Spotlight, Reveal ou Magnetic Dock simples.
+- Usar `IntersectionObserver` em vez de listeners pesados de scroll quando possível.
+- Pointer effects devem atuar somente nos componentes relevantes.
+- `will-change` somente onde realmente necessário.
+- Evitar blur de áreas gigantes em múltiplas camadas simultâneas.
+- Não animar layout continuamente.
+- Fontes externas devem ser reduzidas ao número de famílias e pesos realmente utilizados.
+- Imagens devem possuir dimensões estáveis e loading adequado.
+- Em React, listeners e observers devem ser limpos no unmount.
+
+---
+
+# Turquoise Architect — Pre-flight específico
+
+Antes de considerar uma implementação ASJ concluída, valide:
+
+## Visual foundation
+
+- [ ] Canvas é `#F2F2F0`, `#FDFBF7` ou variação explicitamente aprovada.
+- [ ] Não existe branco puro como canvas dominante.
+- [ ] Superfícies usam branco quente, creme ou Soft Blue de forma coerente.
+- [ ] Primary é `#087F8C`.
+- [ ] Primary Dark é `#075E67`.
+- [ ] Soft Blue é `#DCEFF0`.
+- [ ] Texto principal é off-black.
+- [ ] Dourado `#C89B5B` aparece apenas como accent premium.
+
+## Typography
+
+- [ ] Não existem fontes banidas como direção principal.
+- [ ] Display usa peso 700+.
+- [ ] Tracking do display é intencionalmente negativo.
+- [ ] Metadata usa mono quando adequado.
+- [ ] Body copy mantém largura confortável.
+
+## Geometry
+
+- [ ] Superfícies importantes usam radius aproximadamente `14px–20px`.
+- [ ] Buttons permanecem aproximadamente `8px–12px`, não pills extremos.
+- [ ] Cards aninhados possuem raios concêntricos.
+- [ ] Círculos são reservados para elementos funcionalmente circulares.
+
+## Nested architecture
+
+- [ ] Existe double-bezel em previews/cards importantes.
+- [ ] Outer shell tem padding, hairline e sombra suave.
+- [ ] Inner core possui fundo e radius menores.
+- [ ] Não existem nested surfaces geometricamente incoerentes.
+
+## Navigation
+
+- [ ] Navbar principal possui respiro do topo.
+- [ ] Navbar não é uma barra pesada edge-to-edge por padrão.
+- [ ] Backdrop blur é sutil.
+- [ ] Hairline ring está presente quando apropriado.
+
+## Hero
+
+- [ ] Hero possui foco visual evidente.
+- [ ] Headline é forte e legível.
+- [ ] Lede não ultrapassa largura excessiva.
+- [ ] CTA primária está clara.
+- [ ] Product preview existe quando ajuda a explicar o produto.
+- [ ] Ambient effect não reduz contraste.
+
+## CTA
+
+- [ ] Primary CTA usa arquitetura button-in-button quando apropriado.
+- [ ] Trailing icon possui wrapper próprio.
+- [ ] Active usa aproximadamente `scale(.98)`.
+- [ ] Hover do ícone é discreto.
+
+## Sources
+
+- [ ] Refero foi usado para decisões de UX quando necessário.
+- [ ] Aceternity foi usado para composição quando relevante.
+- [ ] 21st.dev foi usado para componentes quando relevante.
+- [ ] React Bits foi usado somente como polish.
+- [ ] Componentry foi usado somente quando interação sofisticada acrescentou valor.
+- [ ] Nenhum componente preserva aparência conflitante da biblioteca de origem.
+
+## Product UX
+
+- [ ] Tabelas continuam tabelas no desktop quando são dados tabulares.
+- [ ] Busca e filtros estão próximos dos dados.
+- [ ] Settings possuem agrupamento claro.
+- [ ] Estados ativos/selecionados são visíveis.
+- [ ] Ações operacionais não dependem de efeitos decorativos.
+
+## Motion
+
+- [ ] Hover e transições usam custom easing ou spring.
+- [ ] `linear` está restrito a movimentos contínuos apropriados.
+- [ ] Scroll reveal usa IntersectionObserver quando aplicável.
+- [ ] Ambient motion dura 24s+ quando utilizado.
+- [ ] Transform e opacity são priorizados.
+- [ ] Reduced motion está implementado.
+
+## Responsive
+
+- [ ] Hero colapsa corretamente.
+- [ ] Bento deixa de depender de spans complexos em mobile.
+- [ ] Sticky/overlap é removido em telas estreitas.
+- [ ] Sidebar possui comportamento mobile definido.
+- [ ] Data table possui estratégia mobile.
+- [ ] Filtros continuam utilizáveis por toque.
+- [ ] Não há overflow horizontal acidental da página.
+
+## Premium restraint
+
+- [ ] Dourado não domina a interface.
+- [ ] Não há excesso de badges premium.
+- [ ] Não há glow em todos os componentes.
+- [ ] Não há radius exagerado.
+- [ ] Não há shadow pesada repetida.
+- [ ] A página parece premium por proporção, tipografia, acabamento e coerência — não por decoração excessiva.
+
+## Final coherence
+
+- [ ] É impossível identificar visualmente qual componente veio de qual biblioteca sem consultar o Source Map.
+- [ ] Todos os componentes parecem parte do mesmo Design System.
+- [ ] A página ainda funciona se todas as animações forem removidas.
+- [ ] A interface parece um produto projetado, não uma demo de bibliotecas.
+
+---
+
 # Princípio central
 
 **Entender → inspecionar → pesquisar → comparar → sintetizar → contratar → selecionar → adaptar → implementar → validar → refinar.**
