@@ -1,0 +1,205 @@
+name: Apply modern controls rule
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-modern-controls-rule.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-skill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Insert modern form controls rule
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('SKILL.md')
+          text = path.read_text(encoding='utf-8')
+
+          marker = '# Tabelas e interfaces de dados\n'
+          if marker not in text:
+              raise SystemExit('Target marker not found in SKILL.md')
+
+          section = r'''# Regra obrigatória — Não usar aparência nativa em controles complexos
+
+Controles complexos de formulário **não devem ser entregues com a aparência padrão/nativa do navegador como solução final** quando existir uma alternativa moderna, acessível e compatível com o Design System.
+
+Esta regra se aplica especialmente a:
+
+- `<select>`;
+- combobox;
+- autocomplete;
+- calendários;
+- `input[type="date"]` quando a UI nativa ficar exposta como solução final;
+- date pickers;
+- date-range pickers;
+- time pickers;
+- dropdowns;
+- multi-select;
+- popovers de seleção;
+- controles equivalentes de seleção complexa.
+
+Consulte também:
+
+- `references/modern-form-controls.md`
+
+## Princípio
+
+**Preserve semântica nativa quando ela ajuda acessibilidade, formulários, fallback ou integração, mas não preserve a aparência nativa do navegador quando ela conflita com o Design System ou oferece UX inferior.**
+
+Não confunda:
+
+- **HTML nativo como fundamento semântico** — permitido e frequentemente desejável;
+- **UI nativa visual do navegador como acabamento final** — evitar para controles complexos quando houver solução moderna confiável.
+
+Exemplos válidos:
+
+- manter um input nativo/hidden para valor, submissão ou integração;
+- usar um trigger moderno com Calendar acessível;
+- usar Select/Combobox baseado em primitives acessíveis no lugar da aparência visual de `<select>`;
+- manter fallback nativo quando necessário.
+
+## Prioridade de seleção
+
+Ao substituir um controle nativo visível:
+
+1. reutilize primeiro um componente moderno já existente no projeto;
+2. se houver shadcn/ui ou Radix UI, prefira primitives acessíveis compatíveis com o Design System;
+3. use 21st.dev para comparar alternativas de Select, Combobox, Calendar, Date Picker, Popover e controles correlatos;
+4. use Refero para estudar UX madura de filtros, seleção e datas;
+5. use React Bits ou Componentry apenas para polish/microinteração, nunca como fundamento da ergonomia;
+6. adicione dependência nova somente se a solução existente não for suficiente.
+
+## Requisitos obrigatórios
+
+A substituição deve:
+
+- evitar a aparência padrão/nativa do navegador;
+- utilizar componente moderno com UX melhor ou mais consistente;
+- preservar todas as funcionalidades existentes;
+- preservar valores, validação, eventos, filtros, submissão e integração com formulários;
+- manter responsividade em desktop, tablet e mobile;
+- preservar navegação por teclado;
+- possuir `focus-visible` claro;
+- preservar labels, descrição e mensagens de erro;
+- usar ARIA somente quando necessário e corretamente;
+- contemplar estados `default`, `hover`, `focus`, `open`, `selected`, `disabled`, `invalid` e `loading` quando aplicáveis;
+- manter consistência visual entre selects, calendários, date pickers e demais controles;
+- usar os mesmos tokens de typography, color, radius, border, shadow, spacing e motion do restante da aplicação;
+- preservar a lógica de negócio e o comportamento funcional existente;
+- não alterar formato de dados, regras de datas, timezone, filtros ou valores apenas para acomodar o componente visual.
+
+## Select e Combobox
+
+Quando a quantidade de opções, busca ou complexidade justificar, o componente deve suportar de forma acessível:
+
+- teclado;
+- busca;
+- grupos;
+- opções desabilitadas;
+- estado selecionado;
+- empty state;
+- clear action quando apropriado;
+- scroll de lista;
+- portal/popover bem posicionado;
+- multi-select quando necessário;
+- mobile adequado.
+
+Não recrie um select complexo manualmente com `div` + listeners quando uma primitive acessível já existir no projeto ou na stack escolhida.
+
+## Calendar e Date Picker
+
+Considere obrigatoriamente:
+
+- locale;
+- formato visual;
+- timezone quando relevante;
+- data mínima e máxima;
+- datas indisponíveis;
+- seleção única ou range;
+- navegação por mês/ano;
+- teclado;
+- gerenciamento de foco;
+- clear action quando apropriado;
+- estado inválido;
+- comportamento mobile.
+
+No mobile, avalie Popover, Drawer, Sheet ou Dialog conforme ergonomia e contexto, sem alterar a lógica de negócio.
+
+## Turquoise Architect ASJ
+
+Quando o preset Turquoise Architect estiver ativo:
+
+- controles devem ter aspecto predominantemente retangular/sutilmente arredondado;
+- evitar pill extrema;
+- radius de controles: aproximadamente `8px–12px`;
+- popovers e calendários: aproximadamente `10px–16px`, conforme hierarquia;
+- Primary `#087F8C`;
+- Primary Dark `#075E67`;
+- Soft Blue `#DCEFF0`;
+- superfícies warm white/cream;
+- texto off-black;
+- focus ring turquesa;
+- dourado `#C89B5B` somente em detalhe premium, nunca como estado padrão do formulário.
+
+## Banned
+
+Evite:
+
+- `<select>` com aparência padrão do sistema como UI final sem justificativa;
+- calendário nativo exposto por `input[type="date"]` quando o produto exige consistência visual;
+- date picker desktop quebrado em mobile;
+- componente custom sem navegação por teclado;
+- remover outline/foco sem substituto;
+- dropdown sem gerenciamento de foco;
+- seleção comunicada somente por cor;
+- alterar timezone ou representação de dados por conveniência visual;
+- introduzir biblioteca pesada apenas para trocar aparência;
+- misturar selects, calendários e date pickers com geometrias e estados incompatíveis.
+
+## Exceções
+
+Um controle nativo visível pode permanecer quando:
+
+- o usuário pedir explicitamente;
+- o projeto adotar estratégia native-first;
+- requisito de plataforma/dispositivo justificar;
+- acessibilidade ou compatibilidade for comprovadamente superior com o nativo;
+- não houver alternativa moderna confiável dentro das restrições técnicas.
+
+A exceção deve ser uma decisão consciente e documentável, não o comportamento padrão.
+
+---
+
+'''
+
+          if '# Regra obrigatória — Não usar aparência nativa em controles complexos' not in text:
+              text = text.replace(marker, section + marker, 1)
+
+          checklist_marker = '## Estados\n\n- [ ] Hover existe quando apropriado.\n'
+          checklist = '''## Controles de formulário modernos\n\n- [ ] Nenhum `select`, calendário ou date picker nativo ficou visível por descuido.\n- [ ] Controles complexos usam componente moderno compatível com o Design System quando aplicável.\n- [ ] A substituição preserva valor, validação, eventos e lógica de negócio.\n- [ ] Keyboard navigation foi preservada.\n- [ ] Focus-visible está claro.\n- [ ] Labels e mensagens de erro continuam associadas corretamente.\n- [ ] Estados open/selected/disabled/invalid estão definidos.\n- [ ] Selects, calendários e date pickers compartilham linguagem visual consistente.\n- [ ] Mobile foi considerado, inclusive popovers, drawers/sheets ou dialogs quando apropriado.\n- [ ] Locale, formato e timezone não foram alterados indevidamente.\n- [ ] Não foi adicionada dependência desnecessária.\n\n'''
+          if checklist_marker in text and '## Controles de formulário modernos\n' not in text:
+              text = text.replace(checklist_marker, checklist + checklist_marker, 1)
+
+          path.write_text(text, encoding='utf-8')
+
+      - name: Remove temporary workflow
+        run: git rm .github/workflows/apply-modern-controls-rule.yml
+
+      - name: Commit update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SKILL.md
+          git commit -m "feat: require modern accessible form controls"
+          git push origin HEAD:main
