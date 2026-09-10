@@ -56,13 +56,21 @@ Build, lint ou TypeScript sem erros **não equivalem** a QA visual ou funcional 
 
 A Skill evita entregar a aparência nativa do navegador como solução final para controles complexos quando houver alternativa moderna e acessível. Consulte [`references/modern-form-controls.md`](./references/modern-form-controls.md) para Select, Combobox, Calendar, Date Picker e controles equivalentes.
 
-## Scroll Motion
+## Scroll Motion e mídia Remotion
 
-Animações dependentes de scroll seguem uma escada de decisão: **CSS/transitions → IntersectionObserver → CSS Scroll-driven Animations → GSAP + ScrollTrigger → Remotion somente para vídeo**.
+Animações dependentes de scroll seguem uma escada de decisão: **CSS/transitions → IntersectionObserver → CSS Scroll-driven Animations → GSAP + ScrollTrigger**.
 
-Use GSAP/ScrollTrigger para `scrub`, `pin`, `snap`, timelines coordenadas e storytelling por scroll. Reveals simples devem continuar com IntersectionObserver + CSS quando isso for suficiente. Remotion não é o motor de scroll da página; ele é utilizado quando o artefato principal é vídeo, motion graphics ou uma experiência de vídeo incorporada.
+Use GSAP/ScrollTrigger para `scrub`, `pin`, `snap`, timelines coordenadas e storytelling por scroll. Reveals simples devem continuar com IntersectionObserver + CSS quando isso for suficiente.
 
-Consulte [`references/scroll-motion.md`](./references/scroll-motion.md) para regras de React/GSAP, responsividade, reduced motion, performance, scroll-jacking e QA.
+**Remotion pode produzir animações e vídeos usados dentro da própria landing page.** Ele é recomendado para Hero videos, product demos animadas, walkthroughs, motion graphics, visualizações animadas e outras peças audiovisuais programáticas. A integração pode ocorrer como:
+
+- MP4/WebM pré-renderizado;
+- Remotion Player quando houver props, estado ou controle em runtime;
+- poster/frame estático como fallback.
+
+Se a mídia for sincronizada ao scroll, GSAP/ScrollTrigger ou outra camada de UI controla a relação com a rolagem; Remotion produz ou reproduz a mídia.
+
+Consulte [`references/scroll-motion.md`](./references/scroll-motion.md) para regras de React/GSAP, Remotion em landing pages, responsividade, reduced motion, performance, scroll-jacking e QA.
 
 ## Stack preferencial
 
@@ -86,7 +94,8 @@ Quando o projeto não definir outra stack:
 | Sistema administrativo | Refero → 21st.dev |
 | Motion simples | CSS → IntersectionObserver → React Bits/Componentry |
 | Scroll motion complexo | GSAP + ScrollTrigger |
-| Vídeo / motion graphics | Remotion |
+| Vídeo/animação dentro da landing | Remotion → MP4/WebM ou Remotion Player |
+| Scroll + vídeo sincronizado | GSAP/ScrollTrigger → vídeo ou Remotion Player |
 | Componente específico | 21st.dev → React Bits → Componentry |
 | UX SaaS | Refero → 21st.dev |
 
