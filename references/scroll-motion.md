@@ -165,30 +165,125 @@ Para animações dependentes de scroll, a validação deve considerar:
 - ausência de elementos presos após sair da seção;
 - console sem warnings/erros relacionados à animação.
 
-## Remotion — quando usar e quando não usar
+## Remotion — mídia audiovisual dentro da landing page
 
-**Remotion não é uma biblioteca principal para animação de scroll de páginas web.**
+**Remotion não é a biblioteca principal para controlar o scroll da página, mas pode ser uma ferramenta oficial da UI Architect ASJ para produzir ou reproduzir animações e vídeos usados dentro da landing page.**
 
-Remotion é voltado à criação programática de vídeos e motion graphics com React, incluindo renderização de vídeo, Player e aplicações de vídeo.
+Use Remotion quando a página se beneficiar de uma peça audiovisual criada programaticamente em React, por exemplo:
 
-Use Remotion quando o objetivo for:
+- hero video curto demonstrando o produto;
+- product demo animada;
+- walkthrough de funcionalidades;
+- motion graphics de marca;
+- animação explicativa de processo;
+- visualização animada de dados;
+- mockup de interface em movimento;
+- background motion discreto;
+- loop visual em seção de feature;
+- vídeo de lançamento ou prova de conceito;
+- composição parametrizada por dados ou props.
 
-- gerar MP4/WebM;
-- criar vídeo de demonstração do produto;
-- produzir motion graphics;
-- gerar vídeos parametrizados;
-- incorporar uma experiência de vídeo controlável via Remotion Player;
-- construir um editor ou pipeline de vídeo.
+A mídia deve reforçar a narrativa da landing, e não competir com headline, proposta de valor ou CTA.
 
-Não use Remotion para substituir:
+### Estratégias de integração
 
-- IntersectionObserver;
-- CSS Scroll-driven Animations;
-- GSAP ScrollTrigger;
-- animações normais de componentes React;
-- progressão visual dependente do scroll da página.
+Escolha conscientemente entre:
 
-Se uma landing page precisar controlar a progressão de um vídeo pelo scroll, o controle de scroll continua pertencendo à camada de UI (por exemplo GSAP/ScrollTrigger ou outra técnica apropriada). Remotion pode produzir ou reproduzir a mídia, mas não deve ser escolhido como motor principal do scroll da página.
+1. **Vídeo pré-renderizado** — Remotion produz MP4/WebM e a página incorpora o resultado com `<video>`. É a opção preferencial para conteúdo linear e não interativo.
+2. **Remotion Player** — use quando a composição precisa permanecer React em runtime, receber props, mudar dinamicamente ou responder a controles da aplicação.
+3. **Poster/frame estático** — use como fallback para reduced motion, conexões restritas, carregamento inicial ou quando a reprodução não for necessária.
+
+Não carregue o runtime completo do Remotion apenas porque o vídeo foi produzido com Remotion. Se o resultado é linear, prefira exportar e servir a mídia otimizada.
+
+### Hero video e product showcase
+
+Quando a mídia aparecer no Hero ou em uma seção de produto:
+
+- reserve `aspect-ratio` e dimensões para evitar CLS;
+- use poster/frame inicial coerente;
+- mantenha loops curtos e contínuos quando decorativos;
+- preserve contraste e legibilidade de headline, lede e CTA;
+- não dependa do vídeo para comunicar informação essencial;
+- não reproduza áudio automaticamente;
+- para autoplay decorativo, use `muted` e uma estratégia apropriada de reduced motion;
+- para conteúdo essencial, forneça controles e alternativa textual/captions quando aplicável.
+
+### Performance da mídia
+
+- prefira MP4/WebM otimizado para web;
+- use `preload="metadata"` ou `none` quando a mídia não for imediatamente necessária;
+- carregue vídeo abaixo da dobra de forma preguiçosa quando apropriado;
+- evite vários vídeos pesados reproduzindo simultaneamente;
+- pause mídia fora da viewport quando isso reduzir custo sem prejudicar UX;
+- mantenha dimensões estáveis;
+- ajuste bitrate e resolução ao tamanho real de exibição;
+- não use 4K em uma região pequena apenas por qualidade teórica;
+- considere poster estático para dispositivos ou conexões modestos.
+
+### Remotion + GSAP/ScrollTrigger
+
+É permitido combinar as ferramentas quando a mídia fizer parte de uma narrativa dependente de scroll:
+
+```text
+Scroll da página
+    ↓
+GSAP / ScrollTrigger
+    ↓ controla progresso/estado
+Vídeo pré-renderizado ou Remotion Player
+```
+
+Casos válidos:
+
+- product demo que avança com o scroll;
+- texto sincronizado a momentos específicos da mídia;
+- mídia pinned enquanto a narrativa progride;
+- scroll controlando o tempo ou frame exibido.
+
+Nessa arquitetura:
+
+- **GSAP/ScrollTrigger governa a relação com a rolagem**;
+- **Remotion produz ou reproduz a composição audiovisual**;
+- a página deve continuar utilizável sem a sincronização;
+- mobile e reduced motion devem possuir comportamento simplificado;
+- scroll-jacking continua proibido por padrão.
+
+Para vídeo pré-renderizado, a camada da página pode mapear progresso do scroll para o playback. Para Remotion Player, a integração da UI controla o progresso/estado do Player; a composição não deve esconder um mecanismo próprio de scroll.
+
+### Quando não usar Remotion
+
+Não use quando:
+
+- CSS resolve a animação com poucas propriedades;
+- o efeito é apenas hover, reveal ou microinteração;
+- GSAP resolve diretamente os elementos DOM sem necessidade de timeline audiovisual;
+- uma imagem comunica o mesmo conteúdo com melhor performance;
+- o custo de vídeo/runtime é maior do que o ganho de comunicação.
+
+### Acessibilidade e reduced motion
+
+- conteúdo essencial não pode existir somente dentro do vídeo;
+- forneça texto/caption equivalente quando necessário;
+- não reproduza áudio automaticamente;
+- respeite `prefers-reduced-motion`;
+- em reduced motion, prefira poster, frame final ou versão estática;
+- controles devem operar por teclado e possuir nomes acessíveis.
+
+### QA de mídia Remotion na landing
+
+Valide:
+
+- carregamento inicial;
+- poster/primeiro frame;
+- autoplay quando utilizado;
+- loop sem salto perceptível quando necessário;
+- pause/play e controles quando aplicáveis;
+- desktop, tablet e mobile;
+- reduced motion;
+- falha ou lentidão no carregamento;
+- ausência de CLS;
+- custo de CPU/GPU aceitável;
+- legibilidade ao redor da mídia;
+- sincronização scroll/mídia quando existir.
 
 ## Ordem preferencial da Skill
 
@@ -198,12 +293,15 @@ Escolha nesta ordem:
 2. IntersectionObserver para reveals discretos;
 3. CSS Scroll-driven Animations para progresso simples quando compatibilidade permitir;
 4. GSAP + ScrollTrigger para scroll complexo e coreografado;
-5. Remotion somente quando o artefato principal for vídeo ou uma experiência de vídeo incorporada.
+5. Remotion quando a landing precisar de vídeo, motion graphics, product demo animada ou mídia React incorporada — sem usá-lo como motor de scroll.
 
 ## Banned
 
 - adicionar GSAP por padrão em toda landing page;
 - usar Remotion como biblioteca de scroll motion;
+- carregar Remotion Player quando um MP4/WebM pré-renderizado resolve melhor;
+- autoplay com áudio;
+- mídia audiovisual que contém informação essencial sem alternativa textual;
 - pinning prolongado sem justificativa narrativa;
 - scrub em texto longo apenas por decoração;
 - scroll-jacking;
@@ -213,7 +311,7 @@ Escolha nesta ordem:
 - animação que deixa a UI em estado intermediário após resize;
 - múltiplas bibliotecas de motion resolvendo o mesmo problema sem necessidade.
 
-## Pre-flight — Scroll Motion
+## Pre-flight — Scroll Motion e mídia
 
 - [ ] A animação resolve um problema concreto de UX/narrativa.
 - [ ] A técnica escolhida é a mais simples suficiente.
@@ -229,3 +327,8 @@ Escolha nesta ordem:
 - [ ] Performance foi inspecionada.
 - [ ] Resize, back-scroll e refresh no meio da página foram considerados.
 - [ ] Remotion não foi usado como motor de scroll da página.
+- [ ] Se Remotion produz mídia da landing, foi decidido entre pré-renderizado, Player e poster/fallback.
+- [ ] Vídeo decorativo não inicia com áudio.
+- [ ] A mídia possui dimensões estáveis e estratégia de loading.
+- [ ] Conteúdo audiovisual essencial possui alternativa textual/caption quando aplicável.
+- [ ] Se o scroll controla a mídia, GSAP/ScrollTrigger ou camada equivalente da UI governa a sincronização.
