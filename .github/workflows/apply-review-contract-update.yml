@@ -1,0 +1,32 @@
+name: Apply review contract update
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-review-contract-update.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-skill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply SKILL update
+        run: python .github/scripts/apply-review-contract-update.py
+
+      - name: Commit updated SKILL and cleanup temporary files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/scripts/apply-review-contract-update.py
+          git rm .github/workflows/apply-review-contract-update.yml
+          git add SKILL.md
+          git commit -m "feat: strengthen redesign and validation contract [skip ci]"
+          git push
