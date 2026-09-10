@@ -1,0 +1,35 @@
+name: Apply scroll motion rule
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-scroll-motion-rule.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-skill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply scroll motion contract
+        run: python .github/scripts/apply_scroll_motion_rule.py
+
+      - name: Remove temporary updater
+        run: |
+          rm -f .github/scripts/apply_scroll_motion_rule.py
+          rm -f .github/workflows/apply-scroll-motion-rule.yml
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SKILL.md .github/scripts/apply_scroll_motion_rule.py .github/workflows/apply-scroll-motion-rule.yml
+          git commit -m "feat: define scroll motion decision contract [skip ci]"
+          git push
