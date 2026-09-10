@@ -1127,7 +1127,7 @@ Antes de considerar uma implementação ASJ concluída, valide:
 
 # Princípio central
 
-**Entender → inspecionar → pesquisar → comparar → sintetizar → contratar → selecionar → adaptar → implementar → validar → refinar.**
+**Entender → inspecionar → classificar → pesquisar → comparar → sintetizar → definir o contrato → selecionar → adaptar → implementar → validar → refinar.**
 
 Nunca pule diretamente de “pedido do usuário” para “código” em uma interface relevante.
 
@@ -1431,6 +1431,24 @@ Primeiro identifique o que define a identidade da referência; depois preserve e
 O escopo é um componente ou bloco específico.
 
 Não introduza uma nova linguagem visual no restante do produto.
+
+---
+
+# Sequência canônica de execução
+
+A sequência abaixo governa tarefas relevantes de criação, redesign e refatoração. Ela é um **contrato de execução**, não um formato obrigatório de resposta ao usuário.
+
+1. **Problema** — registrar objetivo, escopo, fluxos que precisam ser preservados e qualquer autorização explícita para mudar produto ou regra de negócio.
+2. **Modo de trabalho** — classificar como criar, refatorar, reproduzir, melhorar ou componente isolado.
+3. **Referências** — selecionar somente fontes úteis ao problema.
+4. **Padrão de UX** — definir arquitetura, hierarquia, densidade, fluxo e comportamento.
+5. **Design Contract** — fixar Hard Rules, Banned Patterns, Required Regions, responsividade, acessibilidade, motion e performance.
+6. **Seleção** — escolher primitives, componentes e padrões com menor custo de integração.
+7. **Adaptação** — normalizar tudo ao Design System e aos contratos existentes.
+8. **Implementação** — preservar negócio, dados, permissões e comportamento não autorizado a mudar.
+9. **Validação** — verificar página completa, região alterada, estados, breakpoints e fluxos preservados com evidência proporcional ao escopo.
+
+Uma mudança de endpoint, payload, permissão, regra de negócio, persistência, fluxo ou contrato de dados **só pode ser tratada como parte do redesign se tiver sido explicitamente autorizada e registrada no Problema antes da implementação**.
 
 ---
 
@@ -1911,6 +1929,26 @@ Se não, normalize novamente.
 
 ---
 
+# Regra de primitives compartilhadas e escopo de estilos
+
+Quando o projeto já possuir uma primitive compartilhada — como Button, Checkbox, Switch, Select, Dialog, Input, Table ou equivalente — **não crie uma cópia local apenas para acomodar o redesign**.
+
+Prioridade:
+
+1. reutilizar a primitive existente;
+2. usar uma variante oficial da primitive;
+3. ampliar a API da primitive somente quando a mudança for reutilizável e o impacto global estiver mapeado;
+4. aplicar composição ou wrapper local quando o comportamento for específico da tela;
+5. criar nova primitive apenas quando existir uma diferença semântica ou funcional real.
+
+Não altere uma primitive global para resolver um problema local sem avaliar o **blast radius**.
+
+Estilos específicos devem ser isolados por componente, variante, classe ou escopo previsível. Evite seletores genéricos como `input`, `button`, `[role="switch"]`, `.card` ou equivalentes quando puderem contaminar outras primitives e páginas.
+
+Um redesign não pode corrigir uma tela quebrando silenciosamente outra.
+
+---
+
 # Regras de adoção de componente externo
 
 Antes de usar um componente externo, verifique:
@@ -2161,6 +2199,25 @@ Botões devem possuir estados:
 
 ---
 
+# Regra de verdade da interface — sem falsa affordance
+
+Todo elemento que **parece interativo, editável, persistente ou mensurável deve produzir a consequência que comunica**.
+
+A Skill não pode:
+
+- transformar informação somente leitura em campo com aparência editável sem existir edição real;
+- criar toggle, checkbox, botão, menu ou CTA sem ação correspondente quando apresentado como funcional;
+- indicar “salvo”, “ativo”, “sincronizado”, “enviado”, “concluído” ou estado equivalente sem evidência do estado real;
+- criar filtros que não alteram os dados;
+- criar paginação ou ordenação apenas visual;
+- inventar métricas, permissões ou estados para preencher layout;
+- mostrar autosave se a aplicação exige salvamento explícito;
+- ocultar uma limitação de API com uma affordance visual falsa.
+
+Se um controle existir apenas como demonstração, protótipo ou placeholder, isso deve estar claramente delimitado e não pode ser apresentado como comportamento de produção.
+
+---
+
 # Formulários
 
 Formulários devem priorizar clareza e prevenção de erro.
@@ -2333,6 +2390,34 @@ Um controle nativo visível pode permanecer quando:
 - não houver alternativa moderna confiável dentro das restrições técnicas.
 
 A exceção deve ser consciente e justificável, não o comportamento padrão.
+
+---
+
+# Ações críticas, destrutivas e de alto impacto
+
+Ações de risco não podem possuir a mesma hierarquia visual e o mesmo fluxo de confirmação de uma ação comum.
+
+Considere como críticas, conforme o domínio:
+
+- excluir ou apagar dados;
+- restaurar backup;
+- redefinir senha de outra pessoa;
+- revogar acesso;
+- alterar permissões sensíveis;
+- bloquear ou desativar entidade;
+- substituir dados existentes;
+- operações irreversíveis ou de grande alcance.
+
+A interface deve comunicar, de forma proporcional ao risco:
+
+- **contexto** — o que está sendo alterado;
+- **consequência** — o que acontecerá depois da ação;
+- **escopo** — quais registros, usuários ou recursos serão afetados;
+- **reversibilidade** — se existe desfazer, restauração ou recuperação;
+- **confirmação** — somente quando o risco justificar;
+- **feedback** — sucesso, falha e estado em andamento de forma inequívoca.
+
+Não use confirmação pesada para ações triviais, mas também não reduza operações destrutivas a um clique indistinguível de ações comuns.
 
 ---
 
@@ -2549,7 +2634,7 @@ Verifique:
 - labels associadas;
 - erros anunciáveis;
 - ARIA somente quando HTML nativo não resolve;
-- dialogs com foco controlado;
+- dialogs e overlays com foco controlado e restauração de foco ao elemento de origem quando fechados;
 - menus operáveis por teclado;
 - links identificáveis;
 - ícones decorativos ocultos de leitores quando apropriado;
@@ -2741,6 +2826,86 @@ Isso evita usar animação para mascarar problemas estruturais.
 
 ---
 
+# Contrato de resultado final verificável
+
+Redesign não é autorização implícita para mudar produto. O resultado deve ser visualmente melhor **sem mascarar ou alterar contratos funcionais que estavam fora do escopo**.
+
+## A Skill não pode
+
+Em redesigns e refatorações, salvo autorização explícita registrada no Problema, a Skill não pode alterar apenas para acomodar a solução visual:
+
+- endpoints ou rotas de API;
+- payloads, nomes de campos ou contratos de dados;
+- permissões, papéis ou regras de acesso;
+- regras de negócio;
+- persistência e efeitos colaterais;
+- ordenação;
+- paginação;
+- filtros e parâmetros de URL;
+- importação ou exportação;
+- locale;
+- timezone;
+- representação persistida de datas, valores ou identificadores;
+- comportamento de submissão de formulários;
+- fluxos críticos já existentes.
+
+Também não pode:
+
+- redesenhar áreas fora do escopo sem necessidade funcional clara;
+- substituir primitives compartilhadas por clones locais sem justificativa;
+- aplicar estilos genéricos que contaminem outras primitives;
+- criar falsa affordance;
+- declarar validação visual, funcional ou de acessibilidade que não foi executada;
+- transformar `build`, `lint`, testes unitários ou TypeScript sem erros em prova de QA visual;
+- esconder como “aprovado” um fluxo que permaneceu sem inspeção por limitação do ambiente.
+
+## O resultado final deve
+
+Uma entrega relevante só pode ser considerada concluída quando, proporcionalmente ao escopo:
+
+- preserva fluxos, contratos de dados e permissões mapeados, ou enumera objetivamente as mudanças autorizadas;
+- parece parte do Design System e do shell existentes, sem colagem visual ou técnica;
+- comunica prioridade, risco, estado, persistência e consequência de forma verdadeira;
+- possui estratégia responsiva definida para tabelas, filtros, tabs, dialogs, sidebars, formulários e ações críticas relevantes;
+- opera com semântica adequada, teclado, foco visível, contraste, feedback textual e reduced motion;
+- mantém comportamento correto nos estados relevantes, incluindo loading, empty, error, success, disabled e permission denied quando aplicável;
+- foi verificada tanto na **página completa** quanto na **região alterada**;
+- foi verificada nos breakpoints relevantes ao escopo;
+- teve os fluxos que precisavam ser preservados exercitados quando o ambiente permitiu;
+- não apresenta erros de console relacionados ao fluxo validado quando houver acesso a navegador/console;
+- registra explicitamente tudo que não pôde ser verificado.
+
+## Evidência proporcional ao escopo
+
+Use evidência adequada ao tipo de afirmação:
+
+- **estrutura/código** → diff, inspeção de implementação, lint, TypeScript, build e testes automatizados;
+- **visual** → página renderizada e inspeção da região alterada nos viewports relevantes;
+- **funcional** → execução do fluxo, eventos, persistência e efeitos esperados;
+- **acessibilidade** → teclado, foco, labels, semântica, contraste e comportamento do overlay/controle;
+- **responsividade** → verificação dos breakpoints e transformações estruturais relevantes.
+
+Quando forem produzidas capturas ou outros artefatos de QA que sustentem aprovação, prefira evidências duráveis no PR, relatório ou artefato de revisão. Se a evidência permanecer temporária, registre essa limitação.
+
+## Status da validação
+
+Use a semântica abaixo por dimensão de validação quando houver relatório, QA ou entrega que declare status:
+
+- **`passed`** — a verificação correspondente foi realmente executada e o critério foi atendido;
+- **`partial`** — parte dos critérios foi executada; declare objetivamente o que passou e o que permanece sem validação;
+- **`pending`** — a verificação não pôde ser executada por limitação de ambiente, ferramenta, acesso, dados ou dependência.
+
+Regras:
+
+- `passed` nunca pode ser inferido de ausência de erro em uma camada diferente;
+- build aprovado não significa QA visual aprovado;
+- TypeScript aprovado não significa fluxo funcional aprovado;
+- teste de segurança aprovado não significa teclado ou responsividade aprovados;
+- ausência de navegador significa validação visual `pending` ou `partial`, não `passed`;
+- uma limitação deve permanecer explícita até que a verificação correspondente seja executada.
+
+---
+
 # Validação visual
 
 Quando houver ambiente renderizável, não considere concluído sem revisar o resultado renderizado.
@@ -2821,6 +2986,21 @@ Antes de concluir uma tarefa relevante, execute este checklist.
 - [ ] Locale, formato e timezone não foram alterados indevidamente.
 - [ ] Não foi adicionada dependência desnecessária.
 
+## Fidelidade funcional e validação verificável
+
+- [ ] Endpoints, payloads, permissões, regras de negócio, persistência, ordenação, paginação, exportação, locale e timezone foram preservados, salvo mudança explicitamente autorizada.
+- [ ] Não existe falsa affordance: todo controle funcional produz a consequência comunicada.
+- [ ] Primitives compartilhadas foram reutilizadas ou alteradas com impacto mapeado; não há clone local arbitrário.
+- [ ] Estilos específicos não contaminam primitives e páginas fora do escopo.
+- [ ] Ações críticas comunicam contexto, consequência, escopo, reversibilidade e feedback proporcional ao risco.
+- [ ] Página completa e região alterada foram verificadas quando o ambiente permitiu.
+- [ ] Breakpoints, estados e fluxos relevantes foram exercitados proporcionalmente ao escopo.
+- [ ] `passed`, quando utilizado, corresponde a uma verificação realmente executada.
+- [ ] Verificações não executadas estão marcadas como `partial` ou `pending`.
+- [ ] Build/lint/TypeScript não foram usados como substitutos de QA visual ou funcional.
+- [ ] Erros de console relacionados ao fluxo foram verificados quando havia navegador/console disponível.
+- [ ] Evidências que sustentam aprovação são duráveis quando possível, ou sua natureza temporária foi registrada.
+
 ## Estados
 
 - [ ] Hover existe quando apropriado.
@@ -2881,24 +3061,6 @@ Antes de concluir uma tarefa relevante, execute este checklist.
 - [ ] A interface não parece uma colagem de bibliotecas.
 - [ ] A aparência corresponde ao contexto do produto.
 - [ ] O resultado não depende de tendências genéricas para parecer sofisticado.
-
----
-
-# Formato de resposta da Skill
-
-Para tarefas relevantes, mantenha internamente a sequência:
-
-1. **Problema** — o que precisa ser resolvido.
-2. **Modo de trabalho** — criar, refatorar, reproduzir, melhorar ou componente.
-3. **Referências** — quais fontes foram úteis.
-4. **Padrão de UX** — abordagem escolhida.
-5. **Design Contract** — regras que governam a interface.
-6. **Seleção** — componentes/padrões escolhidos.
-7. **Adaptação** — como foram normalizados.
-8. **Implementação** — estrutura técnica.
-9. **Validação** — responsividade, acessibilidade, estados e performance.
-
-Não é obrigatório mostrar todo o raciocínio ao usuário. Exiba somente o que ajuda a compreender as decisões e o resultado.
 
 ---
 
