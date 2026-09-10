@@ -56,6 +56,14 @@ Build, lint ou TypeScript sem erros **não equivalem** a QA visual ou funcional 
 
 A Skill evita entregar a aparência nativa do navegador como solução final para controles complexos quando houver alternativa moderna e acessível. Consulte [`references/modern-form-controls.md`](./references/modern-form-controls.md) para Select, Combobox, Calendar, Date Picker e controles equivalentes.
 
+## Scroll Motion
+
+Animações dependentes de scroll seguem uma escada de decisão: **CSS/transitions → IntersectionObserver → CSS Scroll-driven Animations → GSAP + ScrollTrigger → Remotion somente para vídeo**.
+
+Use GSAP/ScrollTrigger para `scrub`, `pin`, `snap`, timelines coordenadas e storytelling por scroll. Reveals simples devem continuar com IntersectionObserver + CSS quando isso for suficiente. Remotion não é o motor de scroll da página; ele é utilizado quando o artefato principal é vídeo, motion graphics ou uma experiência de vídeo incorporada.
+
+Consulte [`references/scroll-motion.md`](./references/scroll-motion.md) para regras de React/GSAP, responsividade, reduced motion, performance, scroll-jacking e QA.
+
 ## Stack preferencial
 
 Quando o projeto não definir outra stack:
@@ -76,7 +84,9 @@ Quando o projeto não definir outra stack:
 | Landing page | Aceternity UI → 21st.dev → Refero → React Bits → Componentry |
 | Dashboard | Refero → 21st.dev → Aceternity UI |
 | Sistema administrativo | Refero → 21st.dev |
-| Animações | React Bits → Componentry |
+| Motion simples | CSS → IntersectionObserver → React Bits/Componentry |
+| Scroll motion complexo | GSAP + ScrollTrigger |
+| Vídeo / motion graphics | Remotion |
 | Componente específico | 21st.dev → React Bits → Componentry |
 | UX SaaS | Refero → 21st.dev |
 
@@ -92,7 +102,8 @@ UI-Architect-ASJ/
 │   ├── 21st-dev.md
 │   ├── componentry.md
 │   ├── refero.md
-│   └── modern-form-controls.md
+│   ├── modern-form-controls.md
+│   └── scroll-motion.md
 └── examples/
     ├── dashboard.md
     ├── landing-page.md
@@ -101,4 +112,4 @@ UI-Architect-ASJ/
     └── web-turquoise-components-ASJ.html
 ```
 
-O contrato completo de execução, Design System, preset **Turquoise Architect ASJ**, regras de redesign e pre-flight estão em [`SKILL.md`](./SKILL.md).
+O contrato completo de execução, Design System, preset **Turquoise Architect ASJ**, regras de redesign, Scroll Motion Contract e pre-flight estão em [`SKILL.md`](./SKILL.md).
